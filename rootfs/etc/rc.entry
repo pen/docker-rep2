@@ -1,0 +1,16 @@
+#!/bin/sh
+
+cd /var/www
+
+sed -i "s!__DIR__!'$PWD/conf'!" conf/conf.inc.php
+
+echo "conf:conf data:data rep2/ic:data/image_cache" | sed 's/ /\n/g' | \
+while IFS=: read src dst; do
+    dst="/ext/$dst"
+    [[ -d $dst ]] || mv $src $dst
+    rm -rf $src
+    ln -s $dst $src
+done
+
+php-fpm
+exec nginx -g "daemon off;"
