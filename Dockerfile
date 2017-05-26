@@ -3,6 +3,7 @@ MAINTAINER Abe Masahiro <pen@thcomp.org>
 
 RUN apk add -q --no-cache \
             git      \
+            curl     \
             nginx    \
             php5-fpm
 
@@ -17,7 +18,7 @@ RUN rm -r /var/www \
  && git clone -q git://github.com/killer4989/p2-php.git /var/www
 
 WORKDIR /var/www
-RUN wget -q http://getcomposer.org/composer.phar
+RUN curl -O -q https://getcomposer.org/composer.phar
 RUN php5 composer.phar config -g repos.packagist composer https://packagist.jp
 RUN php5 composer.phar global require hirak/prestissimo
 RUN php5 composer.phar install
@@ -29,6 +30,7 @@ RUN apk add -q --no-cache \
 
 RUN apk del -q \
             git \
+            curl \
             php5-phar
 
 COPY rootfs /
