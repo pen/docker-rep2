@@ -1,7 +1,7 @@
 FROM alpine
 MAINTAINER Abe Masahiro <pen@thcomp.org>
 
-RUN apk add --virtual .builders \
+RUN apk add -U --virtual .builders \
             git \
             curl \
             php5-phar
