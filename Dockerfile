@@ -18,9 +18,9 @@ RUN rm -r /var/www \
 
 WORKDIR /var/www
 RUN wget -q http://getcomposer.org/composer.phar
-RUN php composer.phar config -g repos.packagist composer https://packagist.jp
-RUN php composer.phar global require hirak/prestissimo
-RUN php composer.phar install
+RUN php5 composer.phar config -g repos.packagist composer https://packagist.jp
+RUN php5 composer.phar global require hirak/prestissimo
+RUN php5 composer.phar install
 RUN rm -r composer.* ~/.composer `find . -name '.git'`
 
 RUN apk add -q --no-cache \

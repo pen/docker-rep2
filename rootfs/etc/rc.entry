@@ -12,5 +12,5 @@ while IFS=: read src dst; do
     ln -s $dst $src
 done
 
-php-fpm
+php-fpm5
 exec nginx -g "daemon off;"
