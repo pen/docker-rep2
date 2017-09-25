@@ -12,5 +12,5 @@ if [ ! -e .bak ]; then
 fi
 yes n| cp -Ri .bak/* /ext/
 
-php-fpm5
+php-fpm7
 exec nginx -g "daemon off;"
