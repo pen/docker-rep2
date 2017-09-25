@@ -39,4 +39,4 @@ COPY rootfs /
 VOLUME /ext
 EXPOSE 80
 
-CMD /etc/rc.entry
+CMD ["/etc/rc.entry"]
