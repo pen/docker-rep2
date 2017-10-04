@@ -1,16 +1,21 @@
 #!/bin/sh
 
-cd /var/www
-if [ ! -e .bak ]; then
-    sed -i "s!__DIR__!'$PWD/conf'!" conf/conf.inc.php
+yes no | cp -Ri /var/www/.bak/* /ext/
 
-    mkdir .bak
-    for dir in conf data; do
-        mv $dir .bak/
-        ln -s /ext/$dir
-    done
+datadir=/ext/ic/mysql
+if [[ ! -d $datadir ]]; then
+    mysql_install_db --user=mysql --ldata=$datadir
 fi
-yes n| cp -Ri .bak/* /ext/
+
+mysqld --user mysql --datadir=$datadir &
+while ! mysqladmin -s ping; do
+    sleep 1
+done
+mysqladmin create ic2
+php7 /var/www/scripts/ic2.php setup
 
 php-fpm7
-exec nginx -g "daemon off;"
+nginx
+
+rm -f /tmp/2chproxy.pid
+exec /usr/local/bin/2chproxy.pl

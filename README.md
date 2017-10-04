@@ -1,23 +1,20 @@
-# docker-p2-php
+# docker-rep2
 
 ## Description
 
-[killer4989/p2-php](https://github.com/killer4989/p2-php)
-をDockerのコンテナにしたものです。
+- [open774/p2-php](https://github.com/open774/p2-php)
+- [2chproxy.pl](http://github.com/yama-natuki/2chproxy.pl)
+- その他動作に必要なソフトウェア
 
-## Install
+をひとつのDockerコンテナにします。
+
+## Usage
 
 ```shell
-mkdir $HOME/p2
-docker run -d --name p2 -p 10080:80 -v $HOME/p2:/ext pengo/p2-php
+mkdir rep2
+docker run -d --name p2 -p 10080:80 -v $PWD/rep2:/ext pengo/rep2
 open http://localhost:10080
 ```
 
-起動時にボリュームディレクトリにあるファイルを消すことはありません。
-再利用し、不足があれば初期ファイルを置きなおします。
-
-conf/conf.ini.php だけ、オリジナルの`__DIR__`を書き換えています。
-
-## 制限
-
-ic(イメージキャッシュ)には対応していません。
+起動時、ボリュームディレクトリ下に各データが置かれます。
+既にあるものを消すことはありません。
