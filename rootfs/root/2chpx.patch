@@ -1,7 +1,0 @@
---- a/2chpx/2chproxy.pl
-+++ b/2chpx/2chproxy.pl
-@@ -71,3 +71,3 @@
- my $PROXY_CONFIG  = {
--  PROXY_CONFIG_FILE => '',                            #コンフィグファイル
-+  PROXY_CONFIG_FILE => '/etc/2chproxy.conf',          #コンフィグファイル
-   DEDICATED_BROWSER => "JD",                          #使用している専ブラの名前

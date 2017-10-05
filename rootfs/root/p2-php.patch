@@ -7,16 +7,6 @@
 
 --- a/p2-php/conf/conf_user_def.inc.php
 +++ b/p2-php/conf/conf_user_def.inc.php
-@@ -41,3 +41,3 @@
-
--$conf_user_def['brdfile_online'] = "http://azlucky.s25.xrea.com/2chboard/bbsmenu.html";
-+$conf_user_def['brdfile_online'] = "http://menu.5ch.net/bbsmenu.html";
- $conf_user_rules['brdfile_online'] = array('emptyToDef', 'invalidUrlToDef');
-@@ -467,3 +467,3 @@
- // 「直接」でもCookieが使えない端末では gate.php を通す
--$conf_user_def['through_ime'] = "exm"; // ("exm")
-+$conf_user_def['through_ime'] = "exq"; // ("exm")
- $conf_user_sel['through_ime'] = array(
 @@ -529,10 +529,10 @@
  // プロキシを利用(する:1, しない:0)
 -$conf_user_def['proxy_use'] = 0; // (0)

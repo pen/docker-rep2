@@ -46,7 +46,6 @@ RUN git clone git://github.com/open774/p2-php.git \
 COPY rootfs /
 
 RUN git clone git://github.com/yama-natuki/2chproxy.pl.git 2chpx \
- && patch -p1 < 2chpx.patch \
  && mv 2chpx/2chproxy.pl /usr/local/bin/
 
 RUN patch -p1 < p2-php.patch \

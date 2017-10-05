@@ -18,4 +18,4 @@ php-fpm7
 nginx
 
 rm -f /tmp/2chproxy.pid
-exec /usr/local/bin/2chproxy.pl
+exec /usr/local/bin/2chproxy.pl -c /etc/2chproxy.conf
