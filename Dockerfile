@@ -2,7 +2,6 @@ FROM alpine
 MAINTAINER Abe Masahiro <pen@thcomp.org>
 
 RUN apk add -U --virtual .builders \
-            curl \
             git \
             php7-phar
 
@@ -25,28 +24,26 @@ RUN apk add \
             php7-session \
             php7-simplexml \
             php7-sqlite3 \
-            php7-zlib
+            php7-zlib \
+            sudo
 
 RUN mkdir /run/mysqld \
  && chown mysql:mysql /run/mysqld
 
-RUN cd /root \
- && curl -o composer https://getcomposer.org/composer.phar \
- && chmod 755 composer \
- && mv composer /usr/local/bin/ \
- && composer config -g repos.packagist composer https://packagist.jp \
- && composer global require hirak/prestissimo
-
 WORKDIR /root
+
+RUN php -r "readfile('https://getcomposer.org/installer');" | php \
+ && ./composer.phar config -g repos.packagist composer https://packagist.jp \
+ && ./composer.phar global require hirak/prestissimo
 
 RUN git clone git://github.com/open774/p2-php.git \
  && cd p2-php \
- && composer install
-
-COPY rootfs /
+ && /root/composer.phar install
 
 RUN git clone git://github.com/yama-natuki/2chproxy.pl.git 2chpx \
  && mv 2chpx/2chproxy.pl /usr/local/bin/
+
+COPY rootfs /
 
 RUN patch -p1 < p2-php.patch \
  && cd p2-php \
@@ -61,8 +58,8 @@ RUN rm -r /var/www \
  && mv p2-php /var/www
 
 RUN apk del --purge .builders \
- && rm -r /var/cache/apk/* /usr/local/bin/composer \
- && rm -r *.patch 2chpx .composer
+ && rm -r /var/cache/apk/* \
+ && rm -r *.patch 2chpx composer.phar .composer
 
 VOLUME /ext
 EXPOSE 80
