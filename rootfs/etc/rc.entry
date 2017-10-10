@@ -17,5 +17,7 @@ php /var/www/scripts/ic2.php setup
 php-fpm7
 nginx
 
-rm -f /tmp/2chproxy.pid
-exec sudo -u nobody /usr/local/bin/2chproxy.pl -c /etc/2chproxy.conf
+while true; do
+    rm -f /tmp/2chproxy.pid
+    sudo -u nobody /usr/local/bin/2chproxy.pl -c /etc/2chproxy.conf
+done
