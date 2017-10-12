@@ -19,5 +19,5 @@ nginx
 
 while true; do
     rm -f /tmp/2chproxy.pid
-    sudo -u nobody /usr/local/bin/2chproxy.pl -c /etc/2chproxy.conf
+    /usr/local/bin/2chproxy.pl -c /etc/2chproxy.conf
 done
