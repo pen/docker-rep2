@@ -2,7 +2,9 @@ FROM alpine
 MAINTAINER Abe Masahiro <pen@thcomp.org>
 
 RUN apk add -U --virtual .builders \
-            git
+            git \
+            php7-openssl \
+            php7-simplexml
 
 RUN apk add \
             h2o \
@@ -11,19 +13,16 @@ RUN apk add \
             perl-lwp-useragent-determined \
             perl-yaml-tiny \
             php7 \
+            php7-cgi \
             php7-curl \
             php7-dom \
-            php7-fpm \
             php7-gd \
             php7-json \
             php7-mbstring \
             php7-mysqli \
-            php7-openssl \
             php7-pdo_sqlite \
             php7-phar \
             php7-session \
-            php7-simplexml \
-            php7-sqlite3 \
             php7-zlib \
             sudo
 
@@ -52,9 +51,9 @@ RUN patch -p1 < p2-php.patch \
  && mv data .bak/ \
  && ln -s /ext/data \
  && mv rep2/ic .bak/ic/file \
- && ln -s /ext/ic/file rep2/ic
-
-RUN rm -r /var/www \
+ && ln -s /ext/ic/file rep2/ic \
+ && cd .. \
+ && rm -r /var/www \
  && mv p2-php /var/www
 
 RUN apk del --purge .builders \

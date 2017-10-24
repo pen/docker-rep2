@@ -15,7 +15,6 @@ mysqladmin create ic2
 php /var/www/scripts/ic2.php setup
 
 crond
-php-fpm7
 h2o -c /etc/h2o.conf -m daemon
 
 while true; do
