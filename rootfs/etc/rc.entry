@@ -16,7 +16,7 @@ php /var/www/scripts/ic2.php setup
 
 crond
 php-fpm7
-nginx
+h2o -c /etc/h2o.conf -m daemon
 
 while true; do
     rm -f /tmp/2chproxy.pid

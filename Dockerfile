@@ -2,13 +2,12 @@ FROM alpine
 MAINTAINER Abe Masahiro <pen@thcomp.org>
 
 RUN apk add -U --virtual .builders \
-            git \
-            php7-phar
+            git
 
 RUN apk add \
+            h2o \
             mysql \
             mysql-client \
-            nginx \
             perl-lwp-useragent-determined \
             perl-yaml-tiny \
             php7 \
@@ -21,6 +20,7 @@ RUN apk add \
             php7-mysqli \
             php7-openssl \
             php7-pdo_sqlite \
+            php7-phar \
             php7-session \
             php7-simplexml \
             php7-sqlite3 \
