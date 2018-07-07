@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.7
 MAINTAINER Abe Masahiro <pen@thcomp.org>
 
 RUN apk add -U --virtual .builders \
