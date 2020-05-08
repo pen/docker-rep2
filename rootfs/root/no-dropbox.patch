@@ -1,0 +1,9 @@
+--- a/p2-php/composer.json
++++ b/p2-php/composer.json
+@@ -38,6 +38,5 @@
+     "symfony/yaml": "2.2.*",
+-    "jakeasmith/http_build_url": "1.0.*",
+-    "dropbox/dropbox-sdk": "dev-master"
++    "jakeasmith/http_build_url": "1.0.*"
+
+   }

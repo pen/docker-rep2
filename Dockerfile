@@ -29,6 +29,8 @@ RUN apk add \
 RUN mkdir /run/mysqld \
  && chown mysql:mysql /run/mysqld
 
+COPY rootfs /
+
 WORKDIR /root
 
 RUN php -r "readfile('https://getcomposer.org/installer');" | php \
@@ -36,13 +38,12 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php \
  && ./composer.phar global require hirak/prestissimo
 
 RUN git clone git://github.com/open774/p2-php.git \
+ && patch -p1 < no-dropbox.patch \
  && cd p2-php \
  && /root/composer.phar install
 
 RUN git clone git://github.com/yama-natuki/2chproxy.pl.git 2chpx \
  && mv 2chpx/2chproxy.pl /usr/local/bin/
-
-COPY rootfs /
 
 RUN patch -p1 < p2-php.patch \
  && cd p2-php \
