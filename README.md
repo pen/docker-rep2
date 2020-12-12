@@ -22,7 +22,7 @@ open http://localhost:10080
 
 ## 掲示板や検索経由で来てgithubで読んでいる方へ
 
-Usageのとおりにして使うだけならここにあるソースは不要です。
-https://cloud.docker.com/u/pengo/repository/docker/pengo/rep2
-に置いたビルド済のイメージが動くことになります。
+Usageのとおりにして使うだけならソースは不要です。
+https://hub.docker.com/r/pengo/rep2/builds
+に置いたイメージが動くことになります。
 イメージの更新は不定期です。
