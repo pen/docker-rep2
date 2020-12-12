@@ -33,7 +33,7 @@ COPY rootfs /
 
 WORKDIR /root
 
-RUN php -r "readfile('https://getcomposer.org/installer');" | php \
+RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --version 1.10.17\
  && ./composer.phar config -g repos.packagist composer https://packagist.jp \
  && ./composer.phar global require hirak/prestissimo
 
