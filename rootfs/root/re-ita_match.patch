@@ -1,0 +1,7 @@
+--- a/p2-php/lib/BrdMenu.php
++++ b/p2-php/lib/BrdMenu.php
+@@ -52,3 +52,3 @@
+             $this->cate_match = '{<B>(.+)</B><BR>.*$}i';
+-            $this->ita_match = '{^<A HREF="?(http://(.+)/([^/]+)/([^/]+\\.html?)?)"?( target="?_blank"?)?>(.+)</A>(<br>)?$}i';
++            $this->ita_match = '{^<A HREF="?(https?://(.+)/([^/]+)/([^/]+\\.html?)?)"?( target="?_blank"?)?>(.+)</A>(<br>)?$}i';
+         // brdŒ`Ž®

@@ -33,7 +33,7 @@ COPY rootfs /
 
 WORKDIR /root
 
-RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --version 1.10.17\
+RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --version 1.10.17 \
  && ./composer.phar config -g repos.packagist composer https://packagist.jp \
  && ./composer.phar global require hirak/prestissimo
 
@@ -46,6 +46,7 @@ RUN git clone git://github.com/yama-natuki/2chproxy.pl.git 2chpx \
  && mv 2chpx/2chproxy.pl /usr/local/bin/
 
 RUN patch -p1 < p2-php.patch \
+ && patch -p1 < re-ita_match.patch \
  && cd p2-php \
  && rm -r composer* `find . -name '.git*'` \
  && mkdir -p .bak/ic \
