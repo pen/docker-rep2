@@ -6,7 +6,7 @@
 - [2chproxy.pl](http://github.com/yama-natuki/2chproxy.pl)
 - その他動作に必要なソフトウェア
 
-をひとつのDockerコンテナにしたものです。
+をひとつのコンテナにしたものです。
 
 ## 使い方
 
@@ -19,16 +19,7 @@ open http://localhost:10080
 この例ではディレクトリp2dataの下に各データを作ります。
 再起動してもデータが消えることはありません。
 
-### arm64(Raspberry Piなど)で動かしたい
+## 掲示板や検索経由でGitHubに来た方へ
 
-GitHub Container Registryにarm64(とamd64)用のイメージを置きました。
-こちらを利用する場合は上記のdockerコマンドを以下のように変えてください。
-
-```shell
-docker run -d --name rep2 -p 10080:80 -v $PWD/p2data:/ext ghcr.io/pen/rep2
-```
-
-## 掲示板や検索経由で来た方へ
-
-上記の手順で使うだけならビルド済のイメージが使われるため、ソースのダウンロードは不要です。
-ただし更新は不定期です。
+上記の手順で使うならソースのダウンロードは不要です。
+イメージの更新は不定期です。
