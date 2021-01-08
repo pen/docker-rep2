@@ -1,6 +1,8 @@
 FROM ubuntu
 MAINTAINER Abe Masahiro <pen@thcomp.org>
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt update \
  && apt full-upgrade -y
 
@@ -9,13 +11,12 @@ RUN apt install -y software-properties-common \
  && apt update
 
 RUN apt install -y \
-                php8.0-cgi \
-                php8.0-curl \
-                php8.0-gd \
-                php8.0-mbstring \
-                php8.0-sqlite3 \
-                php8.0-xml \
-                php8.0-zip
+                cron \
+                git \
+                h2o \
+                sqlite3 \
+                sudo \
+                unzip
 
 RUN apt install -y \
                 libhttp-daemon-perl \
@@ -23,11 +24,13 @@ RUN apt install -y \
                 libyaml-tiny-perl
 
 RUN apt install -y \
-                cron \
-                git \
-                h2o \
-                sqlite3 \
-                sudo
+                php8.0-cgi \
+                php8.0-curl \
+                php8.0-imagick \
+                php8.0-mbstring \
+                php8.0-sqlite3 \
+                php8.0-xml \
+                php8.0-zip
 
 COPY rootfs /
 

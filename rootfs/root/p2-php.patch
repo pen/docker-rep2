@@ -35,3 +35,8 @@
 -$_conf['expack.ic2.general.dsn'] = "";
 +$_conf['expack.ic2.general.dsn'] = 'sqlite:' . $_conf['db_dir'] . '/image_cache.sqlite';
 
+@@ -40,3 +40,3 @@
+ // –¾Ž¦“I‚É"ImageMagick6"‚ðŽw’è‚µ‚È‚­‚Ä‚à‚æ‚¢
+-$_conf['expack.ic2.general.driver'] = "gd";
++$_conf['expack.ic2.general.driver'] = "imagick";
+
