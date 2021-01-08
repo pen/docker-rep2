@@ -1,66 +1,61 @@
-FROM alpine:3.7
+FROM ubuntu
 MAINTAINER Abe Masahiro <pen@thcomp.org>
 
-RUN apk add -U --virtual .builders \
-            git \
-            php7-openssl \
-            php7-simplexml
+RUN apt update \
+ && apt full-upgrade -y
 
-RUN apk add \
-            h2o \
-            mysql \
-            mysql-client \
-            perl-lwp-useragent-determined \
-            perl-yaml-tiny \
-            php7 \
-            php7-cgi \
-            php7-curl \
-            php7-dom \
-            php7-gd \
-            php7-json \
-            php7-mbstring \
-            php7-mysqli \
-            php7-pdo_sqlite \
-            php7-phar \
-            php7-session \
-            php7-zlib \
-            sudo
+RUN apt install -y software-properties-common \
+ && add-apt-repository ppa:ondrej/php \
+ && apt update
 
-RUN mkdir /run/mysqld \
- && chown mysql:mysql /run/mysqld
+RUN apt install -y \
+                php8.0-cgi \
+                php8.0-curl \
+                php8.0-gd \
+                php8.0-mbstring \
+                php8.0-sqlite3 \
+                php8.0-xml \
+                php8.0-zip
+
+RUN apt install -y \
+                libhttp-daemon-perl \
+                libwww-perl \
+                libyaml-tiny-perl
+
+RUN apt install -y \
+                cron \
+                git \
+                h2o \
+                sqlite3 \
+                sudo
 
 COPY rootfs /
 
 WORKDIR /root
 
 RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --version 1.10.17 \
- && ./composer.phar config -g repos.packagist composer https://packagist.jp \
- && ./composer.phar global require hirak/prestissimo
+ && ./composer.phar config -g repos.packagist composer https://packagist.jp
 
-RUN git clone git://github.com/open774/p2-php.git \
- && patch -p1 < no-dropbox.patch \
- && cd p2-php \
- && /root/composer.phar install
-
-RUN git clone git://github.com/yama-natuki/2chproxy.pl.git 2chpx \
+RUN git clone --depth 1 git://github.com/yama-natuki/2chproxy.pl.git 2chpx \
  && mv 2chpx/2chproxy.pl /usr/local/bin/
 
+RUN git clone -b php8-merge --depth 1 git://github.com/mikoim/p2-php.git
+
+RUN cd p2-php \
+ && /root/composer.phar install
+
 RUN patch -p1 < p2-php.patch \
- && patch -p1 < re-ita_match.patch \
  && cd p2-php \
  && rm -r composer* `find . -name '.git*'` \
- && mkdir -p .bak/ic \
- && mv data .bak/ \
+ && mkdir data/image_cache \
+ && mv data .data/ \
  && ln -s /ext/data \
- && mv rep2/ic .bak/ic/file \
- && ln -s /ext/ic/file rep2/ic \
+ && ln -s /ext/data/image_cache rep2/ic \
  && cd .. \
- && rm -r /var/www \
+ && rm -rf /var/www \
  && mv p2-php /var/www
 
-RUN apk del --purge .builders \
- && rm -r /var/cache/apk/* \
- && rm -r *.patch 2chpx composer.phar .composer
+RUN rm -r *.patch 2chpx composer.phar .composer
 
 VOLUME /ext
 EXPOSE 80
