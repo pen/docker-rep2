@@ -37,12 +37,12 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --version 1
  && ./composer.phar config -g repos.packagist composer https://packagist.jp \
  && ./composer.phar global require hirak/prestissimo
 
-RUN git clone git://github.com/open774/p2-php.git \
+RUN git clone --depth 1 git://github.com/open774/p2-php.git \
  && patch -p1 < no-dropbox.patch \
  && cd p2-php \
  && /root/composer.phar install
 
-RUN git clone git://github.com/yama-natuki/2chproxy.pl.git 2chpx \
+RUN git clone --depth 1 git://github.com/yama-natuki/2chproxy.pl.git 2chpx \
  && mv 2chpx/2chproxy.pl /usr/local/bin/
 
 RUN patch -p1 < p2-php.patch \
