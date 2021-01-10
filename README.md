@@ -1,25 +1,25 @@
-# docker-rep2
+# php8ブランチ
 
 ## 概要
 
-- [open774/p2-php](https://github.com/open774/p2-php)
-- [2chproxy.pl](http://github.com/yama-natuki/2chproxy.pl)
-- その他動作に必要なソフトウェア
+[php8.xサポートのPR](https://github.com/open774/p2-php/pull/22)をフライングでコンテナ化する実験です。
 
-をひとつのコンテナにしたものです。
+いくつかうまく動かないところがあるので調整中です。
 
 ## 使い方
 
 ```shell
-mkdir p2data
-docker run -d --name rep2 -p 10080:80 -v $PWD/p2data:/ext pengo/rep2
-open http://localhost:10080
+git clone --branch php8 git://github.com/pen/docker-rep2 rep8
+cd rep8
+docker build -t rep8 .
+mkdir rep8data
+docker run -d --name rep8 -p 10088:80 -v $PWD/rep8data:/ext rep8
+docker logs -f rep8
 ```
 
-この例ではディレクトリp2dataの下に各データを作ります。
-再起動してもデータが消えることはありません。
+最後のコマンドでログを流しています。
+この後Webブラウザで http://localhost:10088 を開いてください。
 
-## 掲示板や検索経由でGitHubに来た方へ
+## 注意
 
-上記の手順で使うならソースのダウンロードは不要です。
-イメージの更新は不定期です。
+ImageCacheのデータの置き方はmasterブランチと互換性がありません。
