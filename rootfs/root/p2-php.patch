@@ -1,13 +1,13 @@
 --- a/p2-php/conf/conf.inc.php
 +++ b/p2-php/conf/conf.inc.php
-@@ -144,3 +144,3 @@
+@@ -145,3 +145,3 @@
 
 -    define('P2_CONFIG_DIR', __DIR__);
 +    define('P2_CONFIG_DIR', '/var/www/conf');
 
 --- a/p2-php/conf/conf_user_def.inc.php
 +++ b/p2-php/conf/conf_user_def.inc.php
-@@ -529,10 +529,10 @@
+@@ -530,10 +530,10 @@
  // プロキシを利用(する:1, しない:0)
 -$conf_user_def['proxy_use'] = 0; // (0)
 +$conf_user_def['proxy_use'] = 1; // (0)
