@@ -43,11 +43,16 @@ RUN git clone -b php8-merge --depth 1 git://github.com/mikoim/p2-php.git \
  && patch -p1 < p2-php.patch \
  && cd p2-php \
  && /root/composer.phar install \
- && rm -r composer* `find . -name '.git*'` \
- && mkdir data/image_cache \
- && mv data .data/ \
- && ln -s /ext/data \
- && ln -s /ext/data/image_cache rep2/ic \
+ && rm -r composer* `find . -name '.git*'`
+
+RUN cd p2-php \
+ && mkdir -p conf data rep2/ic \
+ && mv conf .conf \
+ && ln -s /ext/conf conf \
+ && mv data .data \
+ && ln -s /ext/data data \
+ && mv rep2/ic rep2/.ic \
+ && ln -s /ext/rep2/ic rep2/ic \
  && cd .. \
  && rm -rf /var/www \
  && mv p2-php /var/www
