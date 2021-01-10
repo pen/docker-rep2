@@ -1,0 +1,9 @@
+--- a/p2-php/rep2/subject.php
++++ b/p2-php/rep2/subject.php
+@@ -374,5 +374,5 @@
+ //$GLOBALS['debug'] && $GLOBALS['profiler']->enterSection('FORLOOP');
+
+-$linesize = sizeof($lines);
++$linesize = is_array($lines) ? sizeof($lines) : 0;
+ $subject_txts = array();
+
