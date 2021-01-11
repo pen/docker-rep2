@@ -5,19 +5,22 @@ RUN apk add -U --virtual .builders \
             git \
             patch \
             gettext-dev \
+            jpeg-dev \
             libpng-dev \
             zlib-dev
 
 RUN apk add \
             h2o \
             libintl \
+            libjpeg \
             libpng \
             perl-lwp-useragent-determined \
             perl-yaml-tiny \
             sudo \
             zlib
 
-RUN docker-php-ext-install -j$(nproc) gettext gd
+RUN docker-php-ext-configure gd --with-jpeg \
+ && docker-php-ext-install -j$(nproc) gettext gd
 
 RUN curl -s -o /usr/local/bin/2chproxy.pl \
         https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/master/2chproxy.pl \
