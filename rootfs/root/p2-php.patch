@@ -1,13 +1,13 @@
---- a/p2-php/conf/conf.inc.php
-+++ b/p2-php/conf/conf.inc.php
+--- a/conf/conf.inc.php
++++ b/conf/conf.inc.php
 @@ -145,3 +145,3 @@
 
 -    define('P2_CONFIG_DIR', __DIR__);
 +    define('P2_CONFIG_DIR', '/var/www/conf');
 
---- a/p2-php/conf/conf_user_def.inc.php
-+++ b/p2-php/conf/conf_user_def.inc.php
-@@ -530,10 +530,10 @@
+--- a/conf/conf_user_def.inc.php
++++ b/conf/conf_user_def.inc.php
+@@ -534,10 +534,10 @@
  // プロキシを利用(する:1, しない:0)
 -$conf_user_def['proxy_use'] = 0; // (0)
 +$conf_user_def['proxy_use'] = 1; // (0)
@@ -21,15 +21,15 @@
 -$conf_user_def['proxy_port'] = ""; // ("")
 +$conf_user_def['proxy_port'] = "8080"; // ("")
 
---- a/p2-php/conf/conf_admin_ex.inc.php
-+++ b/p2-php/conf/conf_admin_ex.inc.php
+--- a/conf/conf_admin_ex.inc.php
++++ b/conf/conf_admin_ex.inc.php
 @@ -103,3 +103,3 @@
  // ImageCache2（off:0, PCのみ:1, 携帯のみ:2, 両方:3）
 -$_conf['expack.ic2.enabled'] = 0; // (0)
 +$_conf['expack.ic2.enabled'] = 3; // (0)
 
---- a/p2-php/conf/conf_ic2.inc.php
-+++ b/p2-php/conf/conf_ic2.inc.php
+--- a/conf/conf_ic2.inc.php
++++ b/conf/conf_ic2.inc.php
 @@ -19,3 +19,3 @@
  // 注2: MySQL,PosrgreSQLでは予めデータベースを作っておく。
 -$_conf['expack.ic2.general.dsn'] = "";

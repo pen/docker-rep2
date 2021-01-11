@@ -7,7 +7,7 @@ yes no | cp -Ri /var/www/rep2/.ic/* /ext/rep2/ic/
 
 php /var/www/scripts/ic2.php setup
 
-cron
+crond
 h2o -c /etc/h2o.conf -m daemon
 
 while true; do
