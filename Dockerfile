@@ -23,7 +23,7 @@ RUN add-apt-repository ppa:ondrej/php \
  && apt-get install -y \
                     php8.0-cgi \
                     php8.0-curl \
-                    php8.0-imagick \
+                    php8.0-gd \
                     php8.0-mbstring \
                     php8.0-sqlite3 \
                     php8.0-xml \
@@ -41,12 +41,9 @@ RUN git clone --depth 1 git://github.com/yama-natuki/2chproxy.pl.git 2chpx \
 
 RUN git clone -b php8-merge --depth 1 git://github.com/mikoim/p2-php.git \
  && patch -p1 < p2-php.patch \
- && patch -p1 < php8.patch \
  && cd p2-php \
  && /root/composer.phar install \
- && rm -r composer* `find . -name '.git*'` \
- && cd .. \
- && patch -p1 < php8-vendor.patch
+ && rm -r composer* `find . -name '.git*'`
 
 RUN cd p2-php \
  && mkdir -p conf data rep2/ic \
