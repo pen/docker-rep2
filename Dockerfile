@@ -11,12 +11,13 @@ RUN apk add -U --virtual .builders \
 
 RUN apk add \
             h2o \
+            sudo \
+            gettext \
             libintl \
             libjpeg \
             libpng \
             perl-lwp-useragent-determined \
             perl-yaml-tiny \
-            sudo \
             zlib
 
 RUN docker-php-ext-configure gd --with-jpeg \
@@ -51,7 +52,8 @@ RUN cd /var/www \
 RUN apk del --purge .builders \
  && rm -r /var/cache/apk/* \
  && cd /root && rm -r *.patch composer.phar .composer \
- && cd /var/www && rm -r composer* `find . -name '.git*'`
+ && cd /var/www && rm -r composer* doc `find . -name '.git*'` \
+ && rm -r /usr/local/include /usr/local/php
 
 VOLUME /ext
 EXPOSE 80
