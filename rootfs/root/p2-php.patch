@@ -33,5 +33,5 @@
 @@ -19,3 +19,3 @@
  // 注2: MySQL,PosrgreSQLでは予めデータベースを作っておく。
 -$_conf['expack.ic2.general.dsn'] = "";
-+$_conf['expack.ic2.general.dsn'] = 'sqlite:' . $_conf['db_dir'] . '/image_cache.sqlite';
++$_conf['expack.ic2.general.dsn'] = 'sqlite:' . $_conf['db_dir'] . '/imgcache.sqlite';
 
