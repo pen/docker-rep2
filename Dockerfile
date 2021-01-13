@@ -20,26 +20,31 @@ RUN apk add \
             perl-yaml-tiny \
             zlib
 
-RUN docker-php-ext-configure gd --with-jpeg \
- && docker-php-ext-install -j$(nproc) gettext gd
+RUN docker-php-ext-configure \
+            gd --with-jpeg \
+ \
+ && docker-php-ext-install -j$(nproc) \
+            gd \
+            gettext
 
-RUN curl -s https://getcomposer.org/installer \
+RUN curl https://getcomposer.org/installer \
         | php -- --version 1.10.17 --install-dir /root \
+ \
  && /root/composer.phar config -g repos.packagist composer https://packagist.jp \
  && /root/composer.phar global require hirak/prestissimo
 
 RUN cd /var \
- && rm -r www \
- && curl -sL -o www.zip https://github.com/mikoim/p2-php/archive/4e1e0483.zip \
- && unzip -q www.zip \
- && rm www.zip \
+ && curl -L -o www/p2-php.zip \
+        https://github.com/mikoim/p2-php/archive/4e1e0483.zip \
+ \
+ && unzip www/p2-php.zip \
+ && mv www www.orig \
  && mv p2-php-* www \
+ \
  && cd www \
- && rm -r doc `find . -name '.git*'` \
- && /root/composer.phar install \
- && rm composer*
+ && /root/composer.phar install
 
-RUN curl -s -o /usr/local/bin/2chproxy.pl \
+RUN curl -o /usr/local/bin/2chproxy.pl \
         https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/8260ca5/2chproxy.pl \
  && chmod 755 /usr/local/bin/2chproxy.pl
 
@@ -47,18 +52,23 @@ COPY rootfs /
 
 RUN cd /var/www \
  && patch -p1 < /root/p2-php.patch \
- && mkdir -p conf data rep2/ic \
- && mv conf .conf \
- && ln -s /ext/conf conf \
- && mv data .data \
- && ln -s /ext/data data \
- && mv rep2/ic rep2/.ic \
+ \
+ && mkdir -p conf && mv conf .conf && ln -s /ext/conf conf \
+ && mkdir -p data && mv data .data && ln -s /ext/data data \
  && ln -s /ext/rep2/ic rep2/ic
 
 RUN apk del --purge .builders \
- && rm -r /var/cache/apk/* \
-          /usr/local/include /usr/local/php \
-          /root/*.patch /root/composer.phar /root/.composer
+ \
+ && rm -r \
+        /var/cache/apk/* \
+        /var/www.orig \
+        /var/www/doc \
+        /usr/local/include \
+        /usr/local/php \
+        /root/*.patch \
+        /root/composer.phar \
+        /root/.composer \
+        `find /var/www -name '.git*' -o -name 'composer.*'`
 
 VOLUME /ext
 EXPOSE 80
