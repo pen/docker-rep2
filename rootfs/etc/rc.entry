@@ -1,8 +1,8 @@
 #!/bin/sh
 
 mkdir -p /ext/conf /ext/data /ext/rep2/ic
-yes no | cp -Ri /var/www/.conf/* /ext/conf/
-yes no | cp -Ri /var/www/.data/* /ext/data/
+yes no | cp -Ri /var/www/conf.orig/* /ext/conf/
+yes no | cp -Ri /var/www/data.orig/* /ext/data/
 
 php /var/www/scripts/ic2.php setup
 

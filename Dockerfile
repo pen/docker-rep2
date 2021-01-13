@@ -53,8 +53,8 @@ COPY rootfs /
 RUN cd /var/www \
  && patch -p1 < /root/p2-php.patch \
  \
- && mkdir -p conf && mv conf .conf && ln -s /ext/conf conf \
- && mkdir -p data && mv data .data && ln -s /ext/data data \
+ && mv conf conf.orig && ln -s /ext/conf conf \
+ && mv data data.orig && ln -s /ext/data data \
  && ln -s /ext/rep2/ic rep2/ic
 
 RUN apk del --purge .builders \
@@ -63,12 +63,12 @@ RUN apk del --purge .builders \
         /var/cache/apk/* \
         /var/www.orig \
         /var/www/doc \
+        `find /var/www -name '.git*' -o -name 'composer.*'` \
         /usr/local/include \
         /usr/local/php \
         /root/*.patch \
         /root/composer.phar \
-        /root/.composer \
-        `find /var/www -name '.git*' -o -name 'composer.*'`
+        /root/.composer
 
 VOLUME /ext
 EXPOSE 80
