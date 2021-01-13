@@ -1,6 +1,8 @@
 #!/bin/sh
 
-yes no | cp -Ri /var/www/.bak/* /ext/
+mkdir -p /ext/conf /ext/data /ext/ic/file
+yes no | cp -Ri /var/www/conf.orig/* /ext/conf/
+yes no | cp -Ri /var/www/data.orig/* /ext/data/
 
 datadir=/ext/ic/mysql
 if [[ ! -d $datadir ]]; then

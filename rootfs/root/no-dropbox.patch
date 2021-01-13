@@ -1,5 +1,5 @@
---- a/p2-php/composer.json
-+++ b/p2-php/composer.json
+--- a/composer.json
++++ b/composer.json
 @@ -39,5 +39,4 @@
      "symfony/yaml": "2.2.*",
 -    "jakeasmith/http_build_url": "1.0.*",
