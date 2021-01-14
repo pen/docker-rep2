@@ -35,7 +35,7 @@ RUN curl https://getcomposer.org/installer \
 
 RUN cd /var \
  && curl -L -o www/p2-php.zip \
-        https://github.com/mikoim/p2-php/archive/4e1e048.zip \
+        https://github.com/mikoim/p2-php/archive/d840b6b.zip \
  \
  && unzip www/p2-php.zip \
  && mv www www.orig \
