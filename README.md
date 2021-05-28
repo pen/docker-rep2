@@ -12,8 +12,8 @@
 
 ```shell
 mkdir p2data
-docker run -d --name rep2 -p 10080:80 -v $PWD/p2data:/ext pengo/rep2
-open http://localhost:10080
+docker run -d --name rep2 -p 18080:80 -v $PWD/p2data:/ext pengo/rep2
+open http://localhost:18080
 ```
 
 この例ではディレクトリp2dataの下に各データを作ります。
