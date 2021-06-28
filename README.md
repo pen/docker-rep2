@@ -14,4 +14,4 @@ open http://localhost:10088
 
 ## 注意
 
-ImageCacheのデータの置き方はmasterブランチと互換性がありません。
+ImageCacheのデータの置き方はmainブランチと互換性がありません。
