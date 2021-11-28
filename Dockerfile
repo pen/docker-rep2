@@ -1,4 +1,4 @@
-FROM php:cli-alpine
+FROM php:8.0.13-cli-alpine3.14
 MAINTAINER Abe Masahiro <pen@thcomp.org>
 
 RUN apk add -U --virtual .builders \
@@ -28,14 +28,14 @@ RUN docker-php-ext-configure \
             gettext
 
 RUN curl https://getcomposer.org/installer \
-        | php -- --version 1.10.17 --install-dir /root \
+        | php -- --version 1.10.23 --install-dir /root \
  \
  && /root/composer.phar config -g repos.packagist composer https://packagist.jp \
  && /root/composer.phar global require hirak/prestissimo
 
 RUN cd /var \
  && curl -L -o www/p2-php.zip \
-        https://github.com/mikoim/p2-php/archive/13fced3.zip \
+        https://github.com/mikoim/p2-php/archive/df12603.zip \
  \
  && unzip www/p2-php.zip \
  && mv www www.orig \
@@ -45,7 +45,7 @@ RUN cd /var \
  && /root/composer.phar install
 
 RUN curl -o /usr/local/bin/2chproxy.pl \
-        https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/8260ca5/2chproxy.pl \
+        https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/15bf90b/2chproxy.pl \
  && chmod 755 /usr/local/bin/2chproxy.pl
 
 COPY rootfs /
