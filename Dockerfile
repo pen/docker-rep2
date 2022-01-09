@@ -1,13 +1,49 @@
-FROM php:8.0.13-cli-alpine3.14
-MAINTAINER Abe Masahiro <pen@thcomp.org>
+FROM php:8.0.14-cli-alpine3.15 AS builder
 
-RUN apk add -U --virtual .builders \
-            git \
+ARG p2_hash="df12603"
+ARG npx_hash="15bf90b"
+ARG composer_version="1.10.24"
+
+WORKDIR /tmp
+
+RUN curl https://getcomposer.org/installer | php -- --version $composer_version
+RUN ./composer.phar config -g repos.packagist composer https://packagist.jp
+RUN ./composer.phar global require hirak/prestissimo
+
+RUN curl -LO https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/$npx_hash/2chproxy.pl
+RUN chmod 755 2chproxy.pl
+RUN mv 2chproxy.pl /usr/local/bin/
+
+RUN curl -LO https://github.com/mikoim/p2-php/archive/$p2_hash.zip
+RUN unzip $p2_hash.zip
+RUN rm -rf /var/www && mv p2-php-* /var/www
+
+RUN apk add git \
             patch \
             gettext-dev \
             jpeg-dev \
             libpng-dev \
             zlib-dev
+
+RUN docker-php-ext-configure gd --with-jpeg
+RUN docker-php-ext-install gd gettext
+
+WORKDIR /var/www
+COPY patch /tmp
+RUN patch -p1 < /tmp/p2-php.patch
+RUN /tmp/composer.phar install
+
+RUN rm -r doc
+RUN rm -rf `find . -name '.git*' -o -name 'composer.*'`
+
+RUN mv conf conf.orig && ln -s /ext/conf conf
+RUN mv data data.orig && ln -s /ext/data data
+RUN ln -s /ext/rep2/ic rep2/ic
+
+
+FROM php:8.0.14-cli-alpine3.15
+LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
+    org.opencontainers.image.source="https://github.com/pen/docker-rep2"
 
 RUN apk add \
             h2o \
@@ -20,55 +56,9 @@ RUN apk add \
             perl-yaml-tiny \
             zlib
 
-RUN docker-php-ext-configure \
-            gd --with-jpeg \
- \
- && docker-php-ext-install -j$(nproc) \
-            gd \
-            gettext
-
-RUN curl https://getcomposer.org/installer \
-        | php -- --version 1.10.23 --install-dir /root \
- \
- && /root/composer.phar config -g repos.packagist composer https://packagist.jp \
- && /root/composer.phar global require hirak/prestissimo
-
-RUN cd /var \
- && curl -L -o www/p2-php.zip \
-        https://github.com/mikoim/p2-php/archive/df12603.zip \
- \
- && unzip www/p2-php.zip \
- && mv www www.orig \
- && mv p2-php-* www \
- \
- && cd www \
- && /root/composer.phar install
-
-RUN curl -o /usr/local/bin/2chproxy.pl \
-        https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/15bf90b/2chproxy.pl \
- && chmod 755 /usr/local/bin/2chproxy.pl
-
+COPY --from=builder /usr/local /usr/local
+COPY --from=builder /var/www   /var/www
 COPY rootfs /
-
-RUN cd /var/www \
- && patch -p1 < /root/p2-php.patch \
- \
- && mv conf conf.orig && ln -s /ext/conf conf \
- && mv data data.orig && ln -s /ext/data data \
- && ln -s /ext/rep2/ic rep2/ic
-
-RUN apk del --purge .builders \
- \
- && rm -r \
-        /var/cache/apk/* \
-        /var/www.orig \
-        /var/www/doc \
-        `find /var/www -name '.git*' -o -name 'composer.*'` \
-        /usr/local/include \
-        /usr/local/php \
-        /root/*.patch \
-        /root/composer.phar \
-        /root/.composer
 
 VOLUME /ext
 EXPOSE 80
