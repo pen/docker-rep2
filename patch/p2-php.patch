@@ -7,7 +7,7 @@
 
 --- a/conf/conf_user_def.inc.php
 +++ b/conf/conf_user_def.inc.php
-@@ -534,10 +534,10 @@
+@@ -537,10 +537,10 @@
  // プロキシを利用(する:1, しない:0)
 -$conf_user_def['proxy_use'] = 0; // (0)
 +$conf_user_def['proxy_use'] = 1; // (0)
@@ -30,7 +30,7 @@
 
 --- a/conf/conf_ic2.inc.php
 +++ b/conf/conf_ic2.inc.php
-@@ -19,3 +19,3 @@
+@@ -20,3 +20,3 @@
  // 注2: MySQL,PosrgreSQLでは予めデータベースを作っておく。
 -$_conf['expack.ic2.general.dsn'] = "";
 +$_conf['expack.ic2.general.dsn'] = 'sqlite:' . $_conf['db_dir'] . '/imgcache.sqlite';

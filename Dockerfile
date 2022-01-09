@@ -1,6 +1,6 @@
 FROM php:8.0.14-cli-alpine3.15 AS builder
 
-ARG p2_hash="df12603"
+ARG p2_hash="673bec7"
 ARG npx_hash="15bf90b"
 ARG composer_version="1.10.24"
 
@@ -26,15 +26,16 @@ RUN apk add git \
             zlib-dev
 
 RUN docker-php-ext-configure gd --with-jpeg
-RUN docker-php-ext-install gd gettext
+RUN docker-php-ext-install -j$(nproc) gd gettext
 
 WORKDIR /var/www
-COPY patch /tmp
-RUN patch -p1 < /tmp/p2-php.patch
-RUN /tmp/composer.phar install
 
+RUN /tmp/composer.phar install
 RUN rm -r doc
 RUN rm -rf `find . -name '.git*' -o -name 'composer.*'`
+
+COPY patch /tmp
+RUN patch -p1 < /tmp/p2-php.patch
 
 RUN mv conf conf.orig && ln -s /ext/conf conf
 RUN mv data data.orig && ln -s /ext/data data
