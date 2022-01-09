@@ -46,8 +46,7 @@ FROM php:8.0.14-cli-alpine3.15
 LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
     org.opencontainers.image.source="https://github.com/pen/docker-rep2"
 
-RUN apk add \
-            h2o \
+RUN apk add h2o \
             sudo \
             gettext \
             libintl \

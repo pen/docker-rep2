@@ -2,7 +2,7 @@
 
 ## 概要
 
-[php8.xサポートのPR](https://github.com/open774/p2-php/pull/22)をフライングでコンテナ化したものです。
+[mikoimさんのphp8対応版](https://github.com/mikoim/p2-php/tree/php805)をフライングでコンテナ化したものです。
 
 ## 使い方
 
