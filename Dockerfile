@@ -1,8 +1,8 @@
-FROM php:8.0.14-cli-alpine3.15 AS builder
+FROM php:8.0.15-cli-alpine3.15 AS builder
 
-ARG p2_hash="673bec7"
+ARG p2_hash="c68995d"
 ARG npx_hash="15bf90b"
-ARG composer_version="1.10.24"
+ARG composer_version="1.10.25"
 
 WORKDIR /tmp
 
@@ -42,7 +42,7 @@ RUN mv data data.orig && ln -s /ext/data data
 RUN ln -s /ext/rep2/ic rep2/ic
 
 
-FROM php:8.0.14-cli-alpine3.15
+FROM php:8.0.15-cli-alpine3.15
 LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
     org.opencontainers.image.source="https://github.com/pen/docker-rep2"
 
