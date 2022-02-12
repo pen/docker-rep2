@@ -2,7 +2,7 @@
 
 ## 概要
 
-[mikoimさんのphp8対応版](https://github.com/mikoim/p2-php/tree/php805)をフライングでコンテナ化したものです。
+[mikoimさんのphp8対応版](https://github.com/mikoim/p2-php/tree/php8-merge)をフライングでコンテナ化したものです。
 
 ## 使い方
 
