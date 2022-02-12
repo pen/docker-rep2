@@ -1,24 +1,14 @@
-FROM php:8.0.15-cli-alpine3.15 AS builder
+ARG PHP_VERSION="8.1.2"
+ARG ALPINE_VERSION="3.15"
 
-ARG p2_hash="c68995d"
-ARG npx_hash="15bf90b"
-ARG composer_version="1.10.25"
+FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
 
-WORKDIR /tmp
+ARG COMPOSER_VERSION="1.10.25"
+ARG GITHUB_P2_HASH="e5a5325"
+ARG GITHUB_2CPX_HASH="15bf90b"
 
-RUN curl https://getcomposer.org/installer | php -- --version $composer_version
-RUN ./composer.phar config -g repos.packagist composer https://packagist.jp
-RUN ./composer.phar global require hirak/prestissimo
-
-RUN curl -LO https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/$npx_hash/2chproxy.pl
-RUN chmod 755 2chproxy.pl
-RUN mv 2chproxy.pl /usr/local/bin/
-
-RUN curl -LO https://github.com/mikoim/p2-php/archive/$p2_hash.zip
-RUN unzip $p2_hash.zip
-RUN rm -rf /var/www && mv p2-php-* /var/www
-
-RUN apk add git \
+RUN apk --update-cache add \
+            git \
             patch \
             gettext-dev \
             jpeg-dev \
@@ -27,6 +17,20 @@ RUN apk add git \
 
 RUN docker-php-ext-configure gd --with-jpeg
 RUN docker-php-ext-install -j$(nproc) gd gettext
+
+WORKDIR /tmp
+
+RUN curl -LO https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/${GITHUB_2CPX_HASH}/2chproxy.pl
+RUN chmod 755 2chproxy.pl
+RUN mv 2chproxy.pl /usr/local/bin/
+
+RUN curl https://getcomposer.org/installer | php -- --version ${COMPOSER_VERSION}
+RUN ./composer.phar config -g repos.packagist composer https://packagist.jp
+RUN ./composer.phar global require hirak/prestissimo
+
+RUN curl -LO https://github.com/mikoim/p2-php/archive/${GITHUB_P2_HASH}.zip
+RUN unzip ${GITHUB_P2_HASH}.zip
+RUN rm -rf /var/www && mv p2-php-* /var/www
 
 WORKDIR /var/www
 
@@ -42,11 +46,12 @@ RUN mv data data.orig && ln -s /ext/data data
 RUN ln -s /ext/rep2/ic rep2/ic
 
 
-FROM php:8.0.15-cli-alpine3.15
+FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
 LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
     org.opencontainers.image.source="https://github.com/pen/docker-rep2"
 
-RUN apk add h2o \
+RUN apk --no-cache add \
+            h2o \
             sudo \
             gettext \
             libintl \
