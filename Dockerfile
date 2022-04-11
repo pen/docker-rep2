@@ -46,6 +46,28 @@ RUN mv data data.orig && ln -s /ext/data data
 RUN ln -s /ext/rep2/ic rep2/ic
 
 
+FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder2
+
+ARG PX2C_VERSION="v20220406"
+
+RUN apk --update-cache add \
+    curl-dev \
+    g++ \
+    gnu-libiconv-dev \
+    lua5.4-dev \
+    make \
+    patch
+
+WORKDIR /root
+RUN wget https://notabug.org/NanashiNoGombe/proxy2ch/archive/${PX2C_VERSION}.tar.gz
+RUN tar xzvf ${PX2C_VERSION}.tar.gz
+
+WORKDIR /root/proxy2ch
+COPY patch /tmp
+RUN patch -p1 < /tmp/proxy2ch.patch
+RUN make
+
+
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
 LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
     org.opencontainers.image.source="https://github.com/pen/docker-rep2"
@@ -64,6 +86,16 @@ RUN apk --no-cache add \
 COPY --from=builder /usr/local /usr/local
 COPY --from=builder /var/www   /var/www
 COPY rootfs /
+
+RUN apk --no-cache add \
+    libcurl \
+    libstdc++ \
+    lua5.4-libs
+
+COPY --from=builder2 /root/proxy2ch/proxy2ch /usr/local/bin/
+
+RUN apk --no-cache add runit
+
 
 VOLUME /ext
 EXPOSE 80

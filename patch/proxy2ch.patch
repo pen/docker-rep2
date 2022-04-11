@@ -1,0 +1,21 @@
+--- a/Makefile
++++ b/Makefile
+@@ -3,8 +3,8 @@
+ OBJS = $(SOURCES:.cpp=.o)
+ OBJS := $(OBJS:.c=.o)
+ 
+-CFLAGS = -O2
+-LDFLAGS = -lcurl -lpthread
++CFLAGS = -O2 -DUSE_LUA -I/usr/include/lua5.4
++LDFLAGS = -lcurl -lpthread -L/usr/lib/lua5.4 -llua
+ 
+ UNAME := $(shell uname)
+ HAVE_GNUTLS := $(shell pkg-config --libs gnutls >/dev/null 2>&1; echo $$?)
+--- a/BBS2chProxyHttpHeaders.cpp
++++ b/BBS2chProxyHttpHeaders.cpp
+@@ -1,4 +1,5 @@
+ #include <algorithm>
++#include <cstring>
+ #include "BBS2chProxyHttpHeaders.h"
+ 
+ std::string& BBS2chProxyHttpHeaderEntry::getName(void)

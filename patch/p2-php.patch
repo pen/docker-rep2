@@ -19,7 +19,7 @@
 
  // プロキシポート ex)"8080"
 -$conf_user_def['proxy_port'] = ""; // ("")
-+$conf_user_def['proxy_port'] = "8080"; // ("")
++$conf_user_def['proxy_port'] = "9080"; // ("")
 
 --- a/conf/conf_admin_ex.inc.php
 +++ b/conf/conf_admin_ex.inc.php

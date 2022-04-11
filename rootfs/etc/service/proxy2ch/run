@@ -1,0 +1,13 @@
+#!/bin/sh
+
+DEFAULT_FLAGS='--verbose -g'
+
+for dir in /ext/lua /ext; do
+    luapath="$dir/bbscgi.lua"
+    if [ -f "$luapath" ]; then
+        LUA_FLAG="--bbscgi-lua=$luapath"
+        break
+    fi
+done
+
+exec /usr/local/bin/proxy2ch $DEFAULT_FLAGS $LUA_FLAG $PX2C_FLAGS
