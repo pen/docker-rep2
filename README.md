@@ -2,7 +2,7 @@
 
 ## 概要
 
-[phpブランチ](https://github.com/pen/docker-rep2/tree/php8)
+[php8ブランチ](https://github.com/pen/docker-rep2/tree/php8)
 にproxy2chを内蔵したものです。
 
 ## 使い方
@@ -20,11 +20,11 @@ mkdir -p p2data/lua
 cp どこか/sample.lua p2data/lua/bbscgi.lua
 ```
 
-ほかのブランチとはポートを変えて...
+ローカルのイメージを指定して起動します。
 
 ```
-docker run -d --name rep2px2c -p 10098:80 -v $PWD/p2data:/ext rep2px2c
-open http://localhost:10098
+docker run -d --name rep2px2c -p 10090:80 -v $PWD/p2data:/ext rep2px2c
+open http://localhost:10090
 ```
 
 プロキシをproxy2chにする場合は
