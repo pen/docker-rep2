@@ -38,7 +38,7 @@ open http://localhost:10090
 
 書き込みがうまくいくかはわかりません。
 
-proxy2chの引数は環境変数 `PX2C_FLAGS` を介して渡せます(ex. `docker run ... -e 'PX2C_FLAGS="-c"`)。
+proxy2chの引数は環境変数 `PX2C_FLAGS` を介して渡せます(ex. `docker run ... -e 'PX2C_FLAGS="-c"'`)。
 が、試行錯誤して頻繁に再起動するならrep2コンテナの内蔵はもどかしいかもしれません。
 
 proxy2ch単体のビルドに興味があればこちらをどうぞ:
