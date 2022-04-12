@@ -20,10 +20,6 @@ RUN docker-php-ext-install -j$(nproc) gd gettext
 
 WORKDIR /tmp
 
-RUN curl -LO https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/${GITHUB_2CPX_HASH}/2chproxy.pl
-RUN chmod 755 2chproxy.pl
-RUN mv 2chproxy.pl /usr/local/bin/
-
 RUN curl https://getcomposer.org/installer | php -- --version ${COMPOSER_VERSION}
 RUN ./composer.phar config -g repos.packagist composer https://packagist.jp
 RUN ./composer.phar global require hirak/prestissimo
@@ -44,6 +40,11 @@ RUN patch -p1 < /tmp/p2-php.patch
 RUN mv conf conf.orig && ln -s /ext/conf conf
 RUN mv data data.orig && ln -s /ext/data data
 RUN ln -s /ext/rep2/ic rep2/ic
+
+RUN curl -LO https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/${GITHUB_2CPX_HASH}/2chproxy.pl
+RUN chmod 755 2chproxy.pl
+RUN patch -p1 < /tmp/2chproxy.patch
+RUN mv 2chproxy.pl /usr/local/bin/
 
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder2

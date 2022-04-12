@@ -1,4 +1,4 @@
 #!/bin/sh
 
 rm -f /tmp/2chproxy.pid
-exec /usr/bin/sudo -u nobody /usr/local/bin/2chproxy.pl -c /etc/2chproxy.conf
+exec /usr/bin/sudo -E -u nobody /usr/local/bin/2chproxy.pl -v -c /etc/2chproxy.conf

@@ -1,0 +1,48 @@
+--- a/2chproxy.pl
++++ b/2chproxy.pl
+@@ -56,6 +56,7 @@
+ 
+ #定数の宣言(実質的なコンフィグファイル)
+ my $PROXY_CONFIG  = {
++  PROXY_CONFIG_ENV_PREFIX => '',                      #'NCHPX_'などとすると環境変数NCHPX_USER_AGENTなどの値を優先
+   PROXY_CONFIG_FILE => '',                            #コンフィグファイル
+   DEDICATED_BROWSER => "JD",                          #使用している専ブラの名前
+                                                       #スクレイピング時にDAT_DIRECTORYと合わせてローカルのdatへアクセスするのに必要
+@@ -1708,6 +1709,11 @@
+ }
+ 
+ sub load_config() {
++  &load_config_file();
++  &load_config_env();
++}
++
++sub load_config_file() {
+   if ($PROXY_CONFIG->{PROXY_CONFIG_FILE} && -f $PROXY_CONFIG->{PROXY_CONFIG_FILE}) {
+     require YAML::Tiny;
+     my $YAML  = YAML::Tiny->read($PROXY_CONFIG->{PROXY_CONFIG_FILE});
+@@ -1737,6 +1743,25 @@
+   }
+ }
+ 
++sub load_config_env() {
++  my $prefix = $PROXY_CONFIG->{PROXY_CONFIG_ENV_PREFIX} or return;
++
++  foreach my $key (keys(%$PROXY_CONFIG)) {
++    next unless exists $ENV{"$prefix$key"};
++
++    my $newvar = $ENV{"$prefix$key"};
++    next unless $newvar ne $PROXY_CONFIG->{$key};
++
++    &print_log(LOG_INFO, 'CONFIG', "$key: $newvar\n");
++
++    if ($key eq 'HANDLED_COOKIES') {
++        $newvar = [ split ' ', $newvar ];
++    }
++
++    $PROXY_CONFIG->{$key} = $newvar;
++  }
++}
++
+ #初期化処理
+ sub initialize() {
+   #コンフィグファイルの読み込み

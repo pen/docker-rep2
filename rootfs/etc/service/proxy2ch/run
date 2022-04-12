@@ -6,38 +6,37 @@ flag() {
     eval "ev=\"\$PX2C_$2\""
     if [ -n "$ev" ]; then
         case "$3" in
-            1) flags="$flags $1" ;;
-            q) flags="$flags $1 \"$ev\"" ;;
-            *) flags="$flags $1 $ev" ;;
+            1) flags="$flags $1"            ;;
+            q) flags="$flags $1 \"$ev\""    ;;
+            e) flags="$flags $1 /ext/$ev"   ;;
+            *) flags="$flags $1 $ev"        ;;
         esac
     fi
 }
 
 flag -p                 PORT
 flag -t                 TIMEOUT
-flag -a                 UA              q
-flag -c                 ACCEPT_CONNECT  1
+flag -a                 USER_AGENT          q
+flag -c                 ACCEPT_CONNECT      1
 flag -4                 IPV4
 flag --proxy            PROXY
-flag -b                 BACKLOG         1
-flag -s                 HTTPS_PINK
-flag --proxy            PROXY
+flag -b                 BACKLOG
+flag -s                 FORCE_HTTPS         1
 flag --api              API
-flag --api-auth-ua      API_AUTH_UA     q
-flag --api-dat-ua       API_DAT_UA      q
-flag --api-auth-xua     API_AUTH_XUA    q
-flag --api-dat-xua      API_DAT_XUA     q
+flag --api-usage        API_USAGE
+flag --api-auth-ua      API_AUTH_UA         q
+flag --api-dat-ua       API_DAT_UA          q
+flag --api-auth-xua     API_AUTH_XUA        q
+flag --api-dat-xua      API_DAT_XUA         q
 flag --api-server       API_SERVER
-flag --bbsmenu          BBSMENU         q
-flag --chunked          CHUNKED         1
-flag --bbscgi-header    BBSCGI_HEADER   q
-flag --gikofix          GIKONAVI        1
-flag --bbscgi-lua       BBSCGI_LUA
-
-if [ -n "$PX2C_USELUA" ]; then
-    flags="$flags --bbscgi-lua=/ext/$PX2C_USELUA"
-elif [ -e /ext/lua/bbscgi.lua ]; then
-    flags="$flags --bbscgi-lua=/ext/lua/bbscgi.lua"
-fi
+flag --chunked          CHUNKED             1
+flag --bbsmenu          BBSMENU             q
+flag --bbscgi-header    BBSCGI_HEADER       q
+flag --bbscgi-postorder BBSCGI_POSTORDER    q
+flag --bbscgi-lua       BBSCGI_LUA          e
+flag --gikofix          GIKONAVI            1
+flag --mitm             MITM
+flag --mitm-cert        MITM_CERT           e
+flag --mitm-key         MITM_KEY            e
 
 exec /usr/local/bin/proxy2ch --verbose -g $flags

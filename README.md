@@ -7,6 +7,9 @@
 [proxy2ch](https://notabug.org/NanashiNoGombe/proxy2ch)
 を追加したものです。
 
+また、プロキシの設定を環境変数で行えるようにしました。
+
+
 ## 使い方
 
 ```shell
@@ -18,22 +21,55 @@ open http://localhost:10090
 プロキシをproxy2chにする場合は
 `設定>ユーザー設定編集>ETC>プロキシ`
 のポート番号を9080にしてください。
+
 8080(のまま)にすれば2chproxy.plを使い(続け)ます。
 
-Luaスクリプトは必須ではありません。
-p2data/lua/bbscgi.lua があればそれを使うようになっています。
+
+## 環境変数による設定変更
+
+### proxy2ch
+
+環境変数`PX2C_FLAGS`で渡せます。
+
+```shell
+docker run -d --name rep2px2c -p 10090:80 -v $PWD/p2data:/ext -e 'PX2C_FLAGS="-c --chunked"' pengo/rep2:px2c
+```
+
+「`PX2C_USER_AGENT` で `-a` 相当」のように、個別に指定する環境変数もあります。詳しくは[こちら](https://github.com/pen/docker-rep2/blob/px2c/rootfs/etc/service/proxy2ch/run)を読んでください。
+
+「p2data/lua/bbscgi.lua があればそれを使う仕様」はなくなりました。
+`PX2C_BBSCGI_LUA` でボリュームのトップからの相対パスを指定してください。
+
+### 2chproxy.pl
+
+2chproxy.conf に書けることが対応する環境変数`NCHPX_*`で渡せます。
+
+## docker composeを使った試行錯誤
+
+docker-compose.yaml を次の内容で作ります:
+
+```yaml
+version: '2'
+
+services:
+  rep2px2c:
+    image: pengo/rep2:rep2px2c
+    volumes:
+      - $PWD/p2data:/ext
+    ports:
+      - "10090:80"
+    environment:
+      PX2C_USER_AGENT: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36"
+      PX2C_BBSCGI_LUA: lua/sample.lua
+      NCHPX_USER_AGENT: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36"
+```
+
+編集が終わったら `docker compose up -d` で(再)起動するので、すぐに試すことができます。
+
+proxy2chと2chproxy.plの切り替えは前述のとおり設定画面のポート番号で行ってください。
 
 ## その他
 
-書き込みがうまくいくかはわかりません。
-
-proxy2chの引数は環境変数 `PX2C_FLAGS` を介して渡せます:
-
-```
-docker run -d --name rep2px2c -p 10090:80 -v $PWD/p2data:/ext -e 'PX2C_FLAGS="-c"' pengo/rep2:px2c
-```
-
-試行錯誤のためrep2コンテナを再起動するのはもどかしいかもしれません。
 proxy2ch単体のビルドに興味があればこちらをどうぞ:
 
 [pen/docker-proxy2ch](https://github.com/pen/docker-proxy2ch)
