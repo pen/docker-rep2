@@ -3,7 +3,9 @@
 ## 概要
 
 [php8ブランチ](https://github.com/pen/docker-rep2/tree/php8)
-にproxy2chを内蔵したものです。
+に
+[proxy2ch](https://notabug.org/NanashiNoGombe/proxy2ch)
+を追加したものです。
 
 ## 使い方
 
