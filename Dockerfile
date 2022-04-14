@@ -1,4 +1,4 @@
-ARG PHP_VERSION="8.1.2"
+ARG PHP_VERSION="8.1.4"
 ARG ALPINE_VERSION="3.15"
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
@@ -42,8 +42,8 @@ RUN mv data data.orig && ln -s /ext/data data
 RUN ln -s /ext/rep2/ic rep2/ic
 
 RUN curl -LO https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/${GITHUB_2CPX_HASH}/2chproxy.pl
-RUN chmod 755 2chproxy.pl
 RUN patch -p1 < /tmp/2chproxy.patch
+RUN chmod 755 2chproxy.pl
 RUN mv 2chproxy.pl /usr/local/bin/
 
 
@@ -82,21 +82,17 @@ RUN apk --no-cache add \
             libpng \
             perl-lwp-useragent-determined \
             perl-yaml-tiny \
-            zlib
+            runit \
+            zlib \
+            \
+            libcurl \
+            libstdc++ \
+            lua5.4-libs
 
 COPY --from=builder /usr/local /usr/local
 COPY --from=builder /var/www   /var/www
-COPY rootfs /
-
-RUN apk --no-cache add \
-    libcurl \
-    libstdc++ \
-    lua5.4-libs
-
 COPY --from=builder2 /root/proxy2ch/proxy2ch /usr/local/bin/
-
-RUN apk --no-cache add runit
-
+COPY rootfs /
 
 VOLUME /ext
 EXPOSE 80
