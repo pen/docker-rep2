@@ -59,9 +59,8 @@ services:
     ports:
       - "10090:80"
     environment:
-      PX2C_USER_AGENT: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36"
       PX2C_BBSCGI_LUA: lua/sample.lua
-      NCPX_USER_AGENT: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36"
+      NCPX_USER_AGENT: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Mobile Safari/537.36
 ```
 
 environment: のところで各プロキシのオプションを変更できます。
