@@ -8,7 +8,7 @@ flag() {
         case "$3" in
             1) flags="$flags $1"            ;;
             q) flags="$flags $1 \"$ev\""    ;;
-            e) flags="$flags $1 /ext/$ev"   ;;
+            e) ev="/ext/$ev"; flags="$flags $1 ${ev/*\/\///}" ;;
             *) flags="$flags $1 $ev"        ;;
         esac
     fi
