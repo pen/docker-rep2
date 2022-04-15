@@ -55,6 +55,8 @@ RUN apk --update-cache add \
     curl-dev \
     g++ \
     gnu-libiconv-dev \
+    # gnutls-dev \
+    openssl-dev \
     lua5.4-dev \
     make \
     patch
@@ -85,6 +87,7 @@ RUN apk --no-cache add \
             runit \
             zlib \
             \
+            # gnutls \
             libcurl \
             libstdc++ \
             lua5.4-libs

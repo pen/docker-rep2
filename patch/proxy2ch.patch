@@ -6,8 +6,8 @@
  
 -CFLAGS = -O2
 -LDFLAGS = -lcurl -lpthread
-+CFLAGS = -O2 -DUSE_LUA -I/usr/include/lua5.4
-+LDFLAGS = -lcurl -lpthread -L/usr/lib/lua5.4 -llua
++CFLAGS = -O2 -DUSE_MITM -DUSE_LUA -I/usr/include/lua5.4
++LDFLAGS = -lcurl -lpthread -L/usr/lib/lua5.4 -llua -L/usr/local/ssl/lib -lssl -lcrypto
  
  UNAME := $(shell uname)
  HAVE_GNUTLS := $(shell pkg-config --libs gnutls >/dev/null 2>&1; echo $$?)

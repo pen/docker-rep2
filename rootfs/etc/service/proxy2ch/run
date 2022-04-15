@@ -37,7 +37,16 @@ flag --bbscgi-lua       BBSCGI_LUA          e
 flag --bbscgi-utf8      BBSCGI_UTF8         1
 flag --gikofix          GIKONAVI            1
 flag --mitm             MITM
-flag --mitm-cert        MITM_CERT           e
-flag --mitm-key         MITM_KEY            e
+flag --mitm-ca-cert     MITM_CA_CERT        e
+flag --mitm-ca-key      MITM_CA_KEY         e
+
+if [ -n "$PX2C_MITM_CA_PEM" ]; then
+    f="/ext/$PX2C_MITM_CA_PEM"
+    if [ ! -e "$f" ]; then
+        mkdir -p `dirname "$f"`
+        proxy2ch --mitm-certgen > "$f"
+        flags="$flags --mitm-ca-cert $f --mitm-ca-key $f"
+    fi
+fi
 
 exec /usr/local/bin/proxy2ch --verbose -g $flags
