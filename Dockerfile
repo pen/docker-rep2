@@ -49,7 +49,7 @@ RUN mv 2chproxy.pl /usr/local/bin/
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder2
 
-ARG NOTABUG_PX2C_HASH="18a15433fe"
+ARG NOTABUG_PX2C_HASH="8a3c6657c4"  # v20220415
 
 RUN apk --update-cache add \
     curl-dev \
