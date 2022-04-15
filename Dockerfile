@@ -4,8 +4,8 @@ ARG ALPINE_VERSION="3.15"
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
 
 ARG COMPOSER_VERSION="1.10.25"
-ARG GITHUB_P2_HASH="e5a5325"
-ARG GITHUB_2CPX_HASH="15bf90b"
+ARG GITHUB_REP2_HASH="e5a5325"
+ARG GITHUB_NCPX_HASH="15bf90b"
 
 RUN apk --update-cache add \
             git \
@@ -24,8 +24,8 @@ RUN curl https://getcomposer.org/installer | php -- --version ${COMPOSER_VERSION
 RUN ./composer.phar config -g repos.packagist composer https://packagist.jp
 RUN ./composer.phar global require hirak/prestissimo
 
-RUN curl -LO https://github.com/mikoim/p2-php/archive/${GITHUB_P2_HASH}.zip
-RUN unzip ${GITHUB_P2_HASH}.zip
+RUN curl -LO https://github.com/mikoim/p2-php/archive/${GITHUB_REP2_HASH}.zip
+RUN unzip ${GITHUB_REP2_HASH}.zip
 RUN rm -rf /var/www && mv p2-php-* /var/www
 
 WORKDIR /var/www
@@ -41,7 +41,7 @@ RUN mv conf conf.orig && ln -s /ext/conf conf
 RUN mv data data.orig && ln -s /ext/data data
 RUN ln -s /ext/rep2/ic rep2/ic
 
-RUN curl -LO https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/${GITHUB_2CPX_HASH}/2chproxy.pl
+RUN curl -LO https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/${GITHUB_NCPX_HASH}/2chproxy.pl
 RUN patch -p1 < /tmp/2chproxy.patch
 RUN chmod 755 2chproxy.pl
 RUN mv 2chproxy.pl /usr/local/bin/
@@ -49,7 +49,7 @@ RUN mv 2chproxy.pl /usr/local/bin/
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder2
 
-ARG PX2C_VERSION="v20220410"
+ARG NOTABUG_PX2C_HASH="18a15433fe"
 
 RUN apk --update-cache add \
     curl-dev \
@@ -60,8 +60,8 @@ RUN apk --update-cache add \
     patch
 
 WORKDIR /root
-RUN wget https://notabug.org/NanashiNoGombe/proxy2ch/archive/${PX2C_VERSION}.tar.gz
-RUN tar xzvf ${PX2C_VERSION}.tar.gz
+RUN wget https://notabug.org/NanashiNoGombe/proxy2ch/archive/${NOTABUG_PX2C_HASH}.tar.gz
+RUN tar xzvf ${NOTABUG_PX2C_HASH}.tar.gz
 
 WORKDIR /root/proxy2ch
 COPY patch /tmp

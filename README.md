@@ -42,7 +42,7 @@ docker run -d --name rep2px2c -p 10090:80 -v $PWD/p2data:/ext -e 'PX2C_FLAGS="-c
 
 ### 2chproxy.pl
 
-2chproxy.conf に書けることが対応する環境変数`NCHPX_*`で渡せます。
+2chproxy.conf に書ける設定FOOが、対応する環境変数`NCPX_FOO`でも渡せます。
 
 ## docker composeを使った試行錯誤
 
@@ -61,7 +61,7 @@ services:
     environment:
       PX2C_USER_AGENT: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36"
       PX2C_BBSCGI_LUA: lua/sample.lua
-      NCHPX_USER_AGENT: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36"
+      NCPX_USER_AGENT: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36"
 ```
 
 編集が終わったら `docker compose up -d` で(再)起動するので、すぐに試すことができます。

@@ -34,6 +34,7 @@ flag --bbsmenu          BBSMENU             q
 flag --bbscgi-header    BBSCGI_HEADER       q
 flag --bbscgi-postorder BBSCGI_POSTORDER    q
 flag --bbscgi-lua       BBSCGI_LUA          e
+flag --bbscgi-utf8      BBSCGI_UTF8         1
 flag --gikofix          GIKONAVI            1
 flag --mitm             MITM
 flag --mitm-cert        MITM_CERT           e
