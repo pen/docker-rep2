@@ -64,12 +64,7 @@ services:
       NCPX_USER_AGENT: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36"
 ```
 
-編集が終わったら `docker compose up -d` で(再)起動するので、すぐに試すことができます。
+environment: のところで各プロキシのオプションを変更できます。
+書き換えたら `docker compose up -d` で起動・再起動するので、すぐに試すことができます。
 
-proxy2chと2chproxy.plの切り替えは前述のとおり設定画面のポート番号で行ってください。
-
-## その他
-
-proxy2ch単体のビルドに興味があればこちらをどうぞ:
-
-[pen/docker-proxy2ch](https://github.com/pen/docker-proxy2ch)
+proxy2chと2chproxy.plの切り替えは前述した設定画面のポート番号の変更で行ってください。
