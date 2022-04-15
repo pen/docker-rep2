@@ -1,0 +1,38 @@
+--- a/2chproxy.pl
++++ b/2chproxy.pl
+@@ -58,2 +58,3 @@
+ my $PROXY_CONFIG  = {
++  PROXY_CONFIG_ENV_PREFIX => '',                      #'NCPX_'などとすると環境変数NCPX_USER_AGENTなどの値を優先
+   PROXY_CONFIG_FILE => '',                            #コンフィグファイル
+@@ -1710,2 +1711,7 @@
+ sub load_config() {
++  &load_config_file();
++  &load_config_env();
++}
++
++sub load_config_file() {
+   if ($PROXY_CONFIG->{PROXY_CONFIG_FILE} && -f $PROXY_CONFIG->{PROXY_CONFIG_FILE}) {
+@@ -1737,4 +1743,23 @@
+   }
+ }
+ 
++sub load_config_env() {
++  my $prefix = $PROXY_CONFIG->{PROXY_CONFIG_ENV_PREFIX} or return;
++
++  foreach my $key (keys(%$PROXY_CONFIG)) {
++    next unless exists $ENV{"$prefix$key"};
++
++    my $newvar = $ENV{"$prefix$key"};
++    next unless $newvar ne $PROXY_CONFIG->{$key};
++
++    &print_log(LOG_INFO, 'CONFIG', "$key: $newvar\n");
++
++    if ($key eq 'HANDLED_COOKIES') {
++        $newvar = [ split ' ', $newvar ];
++    }
++
++    $PROXY_CONFIG->{$key} = $newvar;
++  }
++}
++
+ #初期化処理

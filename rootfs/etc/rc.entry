@@ -11,5 +11,5 @@ h2o -c /etc/h2o.conf -m daemon
 
 while true; do
     rm -f /tmp/2chproxy.pid
-    sudo -u nobody /usr/local/bin/2chproxy.pl -c /etc/2chproxy.conf
+    sudo -E -u nobody /usr/local/bin/2chproxy.pl -v -c /etc/2chproxy.conf
 done
