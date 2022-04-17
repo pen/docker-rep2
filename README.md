@@ -59,12 +59,11 @@ services:
       - "10090:80"
     environment:
       PX2C_API_USAGE: post
-      PX2C_BBSCGI_LUA: lua/sample.lua
       PX2C_BBSCGI_UTF8: api
       NCPX_USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36
 ```
 
 `docker compose up -d`でバックグラウンドで起動。
-設定を変えたら`docker compose up --force-recreate -d`で再起動するのですぐに試せます。
+設定を変えたら`docker compose up --force-recreate -d`で再起動してすぐに試せます。
 
 proxy2chと2chproxy.plの切り替えは前述した設定画面のポート番号変更で行ってください。
