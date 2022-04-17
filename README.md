@@ -7,7 +7,7 @@
 [proxy2ch](https://notabug.org/NanashiNoGombe/proxy2ch)
 を追加したものです。
 
-また、プロキシの設定を環境変数で行えるようにしました。
+また、プロキシのオプションを環境変数で指定できるようにしました。
 
 
 ## 使い方
@@ -18,52 +18,53 @@ docker run -d --name rep2px2c -p 10090:80 -v $PWD/p2data:/ext pengo/rep2:px2c
 open http://localhost:10090
 ```
 
-プロキシをproxy2chにする場合は
+プロキシを選択するには
 `設定>ユーザー設定編集>ETC>プロキシ`
-のポート番号を9080にしてください。
+のポート番号を編集してください。
 
-8080(のまま)にすれば2chproxy.plを使い(続け)ます。
+- 9080 proxy2ch
+- 8080 2chproxy.pl
 
 
-## 環境変数による設定変更
+## 環境変数によるオプション指定
 
 ### proxy2ch
 
-環境変数`PX2C_FLAGS`で渡せます。
+環境変数`PX2C_FLAGS`で指定できます。
 
 ```shell
 docker run -d --name rep2px2c -p 10090:80 -v $PWD/p2data:/ext -e 'PX2C_FLAGS="-c --chunked"' pengo/rep2:px2c
 ```
 
-「`PX2C_USER_AGENT` で `-a` 相当」のように、個別に指定する環境変数もあります。詳しくは[こちら](https://github.com/pen/docker-rep2/blob/px2c/rootfs/etc/service/proxy2ch/run)を読んでください。
+「`PX2C_USER_AGENT`で`-a`相当」のように、個別に指定できる環境変数もあります。詳しくは[こちら](https://github.com/pen/docker-rep2/blob/px2c/rootfs/etc/service/proxy2ch/run)を読んでください。
 
-「p2data/lua/bbscgi.lua があればそれを使う仕様」はなくなりました。
-`PX2C_BBSCGI_LUA` でボリュームのトップからの相対パスを指定してください。
 
 ### 2chproxy.pl
 
-2chproxy.conf に書ける設定FOOが、対応する環境変数`NCPX_FOO`でも渡せます。
+2chproxy.confに書ける設定は、同じ名前に`NCPX_`をつけた環境変数でも渡せます(`USER_AGENT`→`NCPX_USER_AGENT`)。
 
-## docker composeを使った試行錯誤
+
+## docker composeを使った起動
 
 docker-compose.yaml を次の内容で作ります:
 
 ```yaml
 version: '2'
-
 services:
   rep2px2c:
-    image: pengo/rep2:rep2px2c
+    image: pengo/rep2:px2c
     volumes:
       - $PWD/p2data:/ext
     ports:
       - "10090:80"
     environment:
+      PX2C_API_USAGE: post
       PX2C_BBSCGI_LUA: lua/sample.lua
-      NCPX_USER_AGENT: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Mobile Safari/537.36
+      PX2C_BBSCGI_UTF8: api
+      NCPX_USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36
 ```
 
-environment: のところで各プロキシのオプションを変更できます。
-書き換えたら `docker compose up -d` で起動・再起動するので、すぐに試すことができます。
+`docker compose up -d`でバックグラウンドで起動。
+設定を変えたら`docker compose up --force-recreate -d`で再起動するのですぐに試せます。
 
-proxy2chと2chproxy.plの切り替えは前述した設定画面のポート番号の変更で行ってください。
+proxy2chと2chproxy.plの切り替えは前述した設定画面のポート番号変更で行ってください。
