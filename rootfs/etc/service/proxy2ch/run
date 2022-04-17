@@ -3,42 +3,55 @@
 flags="$PX2C_FLAGS"
 
 flag() {
-    eval "ev=\"\$PX2C_$2\""
-    if [ -n "$ev" ]; then
-        case "$3" in
-            1) flags="$flags $1"            ;;
-            q) flags="$flags $1 \"$ev\""    ;;
-            e) ev="/ext/$ev"; flags="$flags $1 ${ev/*\/\///}" ;;
-            *) flags="$flags $1 $ev"        ;;
-        esac
-    fi
+    f=$1; shift
+    t=$1; shift
+    while [ -n "$1" ]; do
+        eval "ev=\"\$PX2C_$1\""
+        if [ -n "$ev" ]; then
+            case "$t" in
+            1) flags="$flags $f"            ;;
+            p) ev="/ext/$ev"; flags="$flags $f ${ev/*\/\///}" ;;
+            q) flags="$flags $f \"$ev\""    ;;
+            *) flags="$flags $f $ev"        ;;
+            esac
+        fi
+        shift
+    done
 }
 
-flag -p                 PORT
-flag -t                 TIMEOUT
-flag -a                 USER_AGENT          q
-flag -c                 ACCEPT_CONNECT      1
-flag -4                 IPV4
-flag --proxy            PROXY
-flag -b                 BACKLOG
-flag -s                 FORCE_HTTPS         1
-flag --api              API
-flag --api-usage        API_USAGE
-flag --api-auth-ua      API_AUTH_UA         q
-flag --api-dat-ua       API_DAT_UA          q
-flag --api-auth-xua     API_AUTH_XUA        q
-flag --api-dat-xua      API_DAT_XUA         q
-flag --api-server       API_SERVER
-flag --chunked          CHUNKED             1
-flag --bbsmenu          BBSMENU             q
-flag --bbscgi-header    BBSCGI_HEADER       q
-flag --bbscgi-postorder BBSCGI_POSTORDER    q
-flag --bbscgi-lua       BBSCGI_LUA          e
-flag --bbscgi-utf8      BBSCGI_UTF8
-flag --gikofix          GIKONAVI            1
-flag --mitm             MITM
-flag --mitm-ca-cert     MITM_CA_CERT        e
-flag --mitm-ca-key      MITM_CA_KEY         e
+flag -p                 s   P PORT
+flag -t                 s   T TIMEOUT
+flag -a                 q   A USER_AGENT
+flag -c                 1   C ACCEPT_CONNECT
+flag -4                 1   4 FORCE_IPV4
+flag -b                 s   B BACKLOG
+flag -s                 1   S FORCE_HTTPS
+flag --proxy            s   PROXY
+flag --api              s   API
+flag --api-usage        s   API_USAGE
+flag --api-auth-ua      q   API_AUTH_UA
+flag --api-dat-ua       q   API_DAT_UA
+flag --api-auth-xua     q   API_AUTH_XUA
+flag --api-dat-xua      q   API_DAT_XUA
+flag --api-server       s   API_SERVER
+flag --bbsmenu          q   BBSMENU
+flag --chunked          1   CHUNKED
+flag --bbscgi-header    q   BBSCGI_HEADER
+flag --bbscgi-header    q   BBSCGI_HEADER2 BBSCGI_HEADER3 BBSCGI_HEADER4 BBSCGI_HEADER5
+flag --bbscgi-header    q   BBSCGI_HEADER6 BBSCGI_HEADER7 BBSCGI_HEADER8 BBSCGI_HEADER9
+flag --bbscgi-postorder q   BBSCGI_POSTORDER
+flag --bbscgi-utf8      s   BBSCGI_UTF8
+flag --bbscgi-lua       p   BBSCGI_LUA
+flag --gikofix          1   GIKOFIX
+flag --mitm             s   MITM
+flag --mitm-ca-cert     p   MITM_CA_CERT
+flag --mitm-ca-key      p   MITM_CA_KEY
+
+if [ -n "$PX2C_BBSCGI_REMOVE_HEADERS" ]; then
+    for h in $PX2C_BBSCGI_REMOVE_HEADERS; do
+        flags="$flags --bbscgi-header \"$h:\""
+    done
+fi
 
 if [ -n "$PX2C_MITM_CA_PEM" ]; then
     f="/ext/$PX2C_MITM_CA_PEM"
