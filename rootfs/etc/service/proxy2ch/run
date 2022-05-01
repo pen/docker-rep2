@@ -10,7 +10,7 @@ flag() {
         if [ -n "$ev" ]; then
             case "$t" in
             1) flags="$flags $f"            ;;
-            p) ev="/ext/$ev"; flags="$flags $f ${ev/*\/\///}" ;;
+            p) ev="ext/$ev"; flags="$flags $f /${ev#*//}" ;;
             q) flags="$flags $f \"$ev\""    ;;
             *) flags="$flags $f $ev"        ;;
             esac
