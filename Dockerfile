@@ -1,4 +1,4 @@
-ARG PHP_VERSION="8.1.5"
+ARG PHP_VERSION="8.1.6"
 ARG ALPINE_VERSION="3.15"
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
@@ -49,7 +49,7 @@ RUN mv 2chproxy.pl /usr/local/bin/
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder2
 
-ARG NOTABUG_PX2C_HASH="de0245bf44"  # v20220501
+ARG NOTABUG_PX2C_HASH="a1ca6bf8ad"  # v20220522
 
 RUN apk --update-cache add \
     curl-dev \

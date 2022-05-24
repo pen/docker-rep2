@@ -44,6 +44,7 @@ flag --bbscgi-postorder q   BBSCGI_POSTORDER
 flag --bbscgi-utf8      s   BBSCGI_UTF8
 flag --bbscgi-lua       p   BBSCGI_LUA
 flag --gikofix          1   GIKOFIX
+flag --keystore         p   KEYSTORE
 flag --mitm             s   MITM
 flag --mitm-ca-cert     p   MITM_CA_CERT
 flag --mitm-ca-key      p   MITM_CA_KEY
