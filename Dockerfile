@@ -1,9 +1,9 @@
-ARG PHP_VERSION="8.1.4"
-ARG ALPINE_VERSION="3.15"
+ARG PHP_VERSION="8.1.23"
+ARG ALPINE_VERSION="3.18"
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
 
-ARG COMPOSER_VERSION="1.10.25"
+ARG COMPOSER_VERSION="1.10.26"
 ARG GITHUB_REP2_HASH="e5a5325"
 ARG GITHUB_NCPX_HASH="15bf90b"
 
@@ -58,6 +58,7 @@ RUN apk --no-cache add \
             libintl \
             libjpeg \
             libpng \
+            perl-http-daemon \
             perl-lwp-useragent-determined \
             perl-yaml-tiny \
             zlib
