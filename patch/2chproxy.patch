@@ -1,22 +1,15 @@
 --- a/2chproxy.pl
 +++ b/2chproxy.pl
-@@ -57,4 +57,5 @@
- #定数の宣言(実質的なコンフィグファイル)
+@@ -58,2 +58,3 @@
  my $PROXY_CONFIG  = {
 +  PROXY_CONFIG_ENV_PREFIX => '',                      #'NCPX_'などとすると環境変数NCPX_USER_AGENTなどの値を優先
    PROXY_CONFIG_FILE => '',                            #コンフィグファイル
-   DEDICATED_BROWSER => "JD",                          #使用している専ブラの名前
-@@ -1370,3 +1371,8 @@
+@@ -1370,3 +1371,3 @@
      $hash_key  = $domain.$category.$dat;
 -    $rewrite_uri  = $uri->scheme()."://".$host.$domain."/test/read.cgi/".$category."/".$dat."/";
-+
-+    $path = "/test/read.cgi/c/";
-+    if ($domain eq '.bbspink.com') {
-+        $path = "/test/read.cgi/";
-+    }
-+    $rewrite_uri  = $uri->scheme()."://".$host.$domain.$path.$category."/".$dat."/";
++    $rewrite_uri  = $uri->scheme()."://".$host.$domain."/test/read.cgi/c/".$category."/".$dat."/";
    }
-@@ -1710,2 +1716,7 @@
+@@ -1710,2 +1711,7 @@
  sub load_config() {
 +  &load_config_file();
 +  &load_config_env();
@@ -24,10 +17,9 @@
 +
 +sub load_config_file() {
    if ($PROXY_CONFIG->{PROXY_CONFIG_FILE} && -f $PROXY_CONFIG->{PROXY_CONFIG_FILE}) {
-@@ -1737,4 +1748,23 @@
-   }
+@@ -1738,3 +1744,22 @@
  }
-+
+ 
 +sub load_config_env() {
 +  my $prefix = $PROXY_CONFIG->{PROXY_CONFIG_ENV_PREFIX} or return;
 +
@@ -46,5 +38,5 @@
 +    $PROXY_CONFIG->{$key} = $newvar;
 +  }
 +}
- 
-  #初期化処理
++
+ #初期化処理
