@@ -35,6 +35,7 @@ flag --api-auth-xua     q   API_AUTH_XUA
 flag --api-dat-xua      q   API_DAT_XUA
 flag --api-server       s   API_SERVER
 flag --api-override     1   API_OVERRIDE
+flag --direct-dat       1   DIRECT_DAT
 flag --bbsmenu          q   BBSMENU
 flag --chunked          1   CHUNKED
 flag --bbscgi-header    q   BBSCGI_HEADER
@@ -48,6 +49,7 @@ flag --keystore         p   KEYSTORE
 flag --mitm             s   MITM
 flag --mitm-ca-cert     p   MITM_CA_CERT
 flag --mitm-ca-key      p   MITM_CA_KEY
+flag --subject-to-lastmodify    1   SUBJECT_TO_LASTMODIFY
 
 if [ -n "$PX2C_BBSCGI_REMOVE_HEADERS" ]; then
     for h in $PX2C_BBSCGI_REMOVE_HEADERS; do

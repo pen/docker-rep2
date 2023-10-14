@@ -1,9 +1,9 @@
-ARG PHP_VERSION="8.1.6"
-ARG ALPINE_VERSION="3.15"
+ARG PHP_VERSION="8.1.24"
+ARG ALPINE_VERSION="3.18"
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
 
-ARG COMPOSER_VERSION="1.10.26"
+ARG COMPOSER_VERSION="1.10.27"
 ARG GITHUB_REP2_HASH="e5a5325"
 ARG GITHUB_NCPX_HASH="15bf90b"
 
@@ -49,7 +49,7 @@ RUN mv 2chproxy.pl /usr/local/bin/
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder2
 
-ARG NOTABUG_PX2C_HASH="a1ca6bf8ad"  # v20220522
+ARG NOTABUG_PX2C_HASH="0c97e3b5e6"  # v20230713..20231014
 
 RUN apk --update-cache add \
     curl-dev \
@@ -82,6 +82,7 @@ RUN apk --no-cache add \
             libintl \
             libjpeg \
             libpng \
+            perl-http-daemon \
             perl-lwp-useragent-determined \
             perl-yaml-tiny \
             runit \
